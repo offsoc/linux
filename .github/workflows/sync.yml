@@ -1,0 +1,35 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 每天 UTC 时间午夜运行一次
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout downstream repository
+        uses: actions/checkout@v3
+        with:
+          repository: offsoc/linux
+          token: ${{ secrets.TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Add upstream repository
+        run: |
+          git remote add upstream https://github.com/torvalds/linux.git
+          git fetch upstream
+          git checkout master
+          git merge upstream/master
+
+      - name: Push changes
+        run: |
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
