@@ -1352,7 +1352,7 @@ int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg)
 			(4 * vdsc_cfg->bits_per_component + 4) +
 			2 * (4 * vdsc_cfg->bits_per_component) - 2;
 	/* Number of bits in one Slice */
-	slice_bits = 8 * vdsc_cfg->slice_chunk_size * vdsc_cfg->slice_height;
+	slice_bits = 8 * (unsigned long)vdsc_cfg->slice_chunk_size * vdsc_cfg->slice_height;
 
 	while ((num_extra_mux_bits > 0) &&
 	       ((slice_bits - num_extra_mux_bits) % vdsc_cfg->mux_word_size))
