@@ -1564,7 +1564,7 @@ static void *rb_range_meta(struct trace_buffer *buffer, int nr_pages, int cpu)
 			/* Save the beginning of this CPU chunk */
 			p = ptr;
 			ptr = rb_range_align_subbuf(ptr, subbuf_size, nr_subbufs);
-			ptr += subbuf_size * nr_subbufs;
+			ptr += (unsigned long)subbuf_size * nr_subbufs;
 
 			/* Now all chunks after this are the same size */
 			size = ptr - p;
