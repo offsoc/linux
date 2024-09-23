@@ -34,6 +34,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <inttypes.h>
 #include <tools/le_byteshift.h>
 
 typedef unsigned char  u8;
@@ -215,8 +216,8 @@ int main(int argc, char ** argv)
 	if (fstat(fd, &sb))
 		die("Unable to stat `%s': %m", argv[2]);
 	if (_edata != sb.st_size)
-		die("Unexpected file size `%s': %u != %u", argv[2], _edata,
-		    sb.st_size);
+		die("Unexpected file size `%s': %lu != %lu", argv[2], (unsigned long)_edata,
+		    (unsigned long)sb.st_size);
 	sz = _edata - 4;
 	kernel = mmap(NULL, sz, PROT_READ, MAP_SHARED, fd, 0);
 	if (kernel == MAP_FAILED)
