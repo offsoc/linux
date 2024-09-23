@@ -129,7 +129,7 @@ def rand_port():
         port = random.randint(10000, 65535)
         try:
             with socket.socket(socket.AF_INET6, socket.SOCK_STREAM) as s:
-                s.bind(("", port))
+                s.bind(("::1", port))
             return port
         except OSError as e:
             if e.errno != errno.EADDRINUSE:
