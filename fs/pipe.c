@@ -394,7 +394,7 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
 		wake_next_reader = true;
 		mutex_lock(&pipe->mutex);
 	}
-	if (pipe_empty(pipe->head, pipe->tail))
+	if (pipe_is_empty(pipe))
 		wake_next_reader = false;
 	mutex_unlock(&pipe->mutex);
 
@@ -577,11 +577,11 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
 		kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
 		wait_event_interruptible_exclusive(pipe->wr_wait, pipe_writable(pipe));
 		mutex_lock(&pipe->mutex);
-		was_empty = pipe_empty(pipe->head, pipe->tail);
+		was_empty = pipe_is_empty(pipe);
 		wake_next_writer = true;
 	}
 out:
-	if (pipe_full(pipe->head, pipe->tail, pipe->max_usage))
+	if (pipe_is_full(pipe))
 		wake_next_writer = false;
 	mutex_unlock(&pipe->mutex);
 
@@ -614,7 +614,7 @@ out:
 static long pipe_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
 	struct pipe_inode_info *pipe = filp->private_data;
-	unsigned int count, head, tail, mask;
+	unsigned int count, head, tail;
 
 	switch (cmd) {
 	case FIONREAD:
@@ -622,10 +622,9 @@ static long pipe_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		count = 0;
 		head = pipe->head;
 		tail = pipe->tail;
-		mask = pipe->ring_size - 1;
 
-		while (tail != head) {
-			count += pipe->bufs[tail & mask].len;
+		while (!pipe_empty(head, tail)) {
+			count += pipe_buf(pipe, tail)->len;
 			tail++;
 		}
 		mutex_unlock(&pipe->mutex);
