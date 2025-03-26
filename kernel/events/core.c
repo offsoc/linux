@@ -1193,8 +1193,8 @@ static void __perf_mux_hrtimer_init(struct perf_cpu_pmu_context *cpc, int cpu)
 	cpc->hrtimer_interval = ns_to_ktime(NSEC_PER_MSEC * interval);
 
 	raw_spin_lock_init(&cpc->hrtimer_lock);
-	hrtimer_init(timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED_HARD);
-	timer->function = perf_mux_hrtimer_handler;
+	hrtimer_setup(timer, perf_mux_hrtimer_handler, CLOCK_MONOTONIC,
+		      HRTIMER_MODE_ABS_PINNED_HARD);
 }
 
 static int perf_mux_hrtimer_restart(struct perf_cpu_pmu_context *cpc)
@@ -4886,7 +4886,7 @@ find_get_context(struct task_struct *task, struct perf_event *event)
 
 	if (!task) {
 		/* Must be root to operate on a CPU event: */
-		err = perf_allow_cpu(&event->attr);
+		err = perf_allow_cpu();
 		if (err)
 			return ERR_PTR(err);
 
@@ -11679,8 +11679,7 @@ static void perf_swevent_init_hrtimer(struct perf_event *event)
 	if (!is_sampling_event(event))
 		return;
 
-	hrtimer_init(&hwc->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_HARD);
-	hwc->hrtimer.function = perf_swevent_hrtimer;
+	hrtimer_setup(&hwc->hrtimer, perf_swevent_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_HARD);
 
 	/*
 	 * Since hrtimers have a fixed rate, we can do a static freq->period
@@ -12849,7 +12848,7 @@ static int perf_copy_attr(struct perf_event_attr __user *uattr,
 		}
 		/* privileged levels capture (kernel, hv): check permissions */
 		if (mask & PERF_SAMPLE_BRANCH_PERM_PLM) {
-			ret = perf_allow_kernel(attr);
+			ret = perf_allow_kernel();
 			if (ret)
 				return ret;
 		}
@@ -13106,12 +13105,12 @@ SYSCALL_DEFINE5(perf_event_open,
 		return err;
 
 	/* Do we allow access to perf_event_open(2) ? */
-	err = security_perf_event_open(&attr, PERF_SECURITY_OPEN);
+	err = security_perf_event_open(PERF_SECURITY_OPEN);
 	if (err)
 		return err;
 
 	if (!attr.exclude_kernel) {
-		err = perf_allow_kernel(&attr);
+		err = perf_allow_kernel();
 		if (err)
 			return err;
 	}
@@ -13131,7 +13130,7 @@ SYSCALL_DEFINE5(perf_event_open,
 
 	/* Only privileged users can get physical addresses */
 	if ((attr.sample_type & PERF_SAMPLE_PHYS_ADDR)) {
-		err = perf_allow_kernel(&attr);
+		err = perf_allow_kernel();
 		if (err)
 			return err;
 	}
@@ -13970,12 +13969,12 @@ const struct perf_event_attr *perf_event_attrs(struct perf_event *event)
 	return &event->attr;
 }
 
-int perf_allow_kernel(struct perf_event_attr *attr)
+int perf_allow_kernel(void)
 {
 	if (sysctl_perf_event_paranoid > 1 && !perfmon_capable())
 		return -EACCES;
 
-	return security_perf_event_open(attr, PERF_SECURITY_KERNEL);
+	return security_perf_event_open(PERF_SECURITY_KERNEL);
 }
 EXPORT_SYMBOL_GPL(perf_allow_kernel);
 
