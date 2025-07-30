@@ -204,7 +204,7 @@ unsigned long cpu_khz_from_msr(void)
 		res = DIV_ROUND_CLOSEST(tscref * ratio, md->divider);
 	} else {
 		freq = freq_desc->freqs[index];
-		res = freq * ratio;
+		res = (unsigned long)freq * ratio;
 	}
 
 	if (freq == 0)
