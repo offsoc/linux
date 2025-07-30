@@ -229,7 +229,7 @@ static int cpuid4_info_fill_done(struct _cpuid4_info *id4, union _cpuid4_leaf_ea
 	id4->eax = eax;
 	id4->ebx = ebx;
 	id4->ecx = ecx;
-	id4->size = (ecx.split.number_of_sets          + 1) *
+	id4->size = ((unsigned long)(ecx.split.number_of_sets + 1)) *
 		    (ebx.split.coherency_line_size     + 1) *
 		    (ebx.split.physical_line_partition + 1) *
 		    (ebx.split.ways_of_associativity   + 1);
