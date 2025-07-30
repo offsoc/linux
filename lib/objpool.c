@@ -66,7 +66,7 @@ objpool_init_percpu_slots(struct objpool_head *pool, int nr_objs,
 		cpu_count++;
 
 		size = struct_size(slot, entries, pool->capacity) +
-			pool->obj_size * nodes;
+			(size_t)pool->obj_size * nodes;
 
 		/*
 		 * here we allocate percpu-slot & objs together in a single
