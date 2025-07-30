@@ -253,7 +253,7 @@ int ext4_mpage_readpages(struct inode *inode,
 		first_hole = blocks_per_folio;
 		block_in_file = next_block =
 			(sector_t)folio->index << (PAGE_SHIFT - blkbits);
-		last_block = block_in_file + nr_pages * blocks_per_page;
+		last_block = block_in_file + (sector_t)nr_pages * blocks_per_page;
 		last_block_in_file = (ext4_readpage_limit(inode) +
 				      blocksize - 1) >> blkbits;
 		if (last_block > last_block_in_file)
