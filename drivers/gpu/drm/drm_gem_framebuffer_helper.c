@@ -185,7 +185,7 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
 			goto err_gem_object_put;
 		}
 
-		min_size = (height - 1) * mode_cmd->pitches[i]
+		min_size = ((size_t)(height - 1)) * mode_cmd->pitches[i]
 			 + drm_format_info_min_pitch(info, i, width)
 			 + mode_cmd->offsets[i];
 
