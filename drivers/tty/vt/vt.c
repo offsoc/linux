@@ -587,8 +587,8 @@ static void con_scroll(struct vc_data *vc, unsigned int top,
 			vc->vc_sw->con_scroll(vc, top, bottom, dir, nr))
 		return;
 
-	src = clear = (u16 *)(vc->vc_origin + vc->vc_size_row * top);
-	dst = (u16 *)(vc->vc_origin + vc->vc_size_row * (top + nr));
+	src = clear = (u16 *)(vc->vc_origin + (unsigned long)vc->vc_size_row * top);
+	dst = (u16 *)(vc->vc_origin + (unsigned long)vc->vc_size_row * (top + nr));
 
 	if (dir == SM_UP) {
 		clear = src + (rows - nr) * vc->vc_cols;
