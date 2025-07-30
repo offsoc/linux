@@ -30,7 +30,7 @@ static void snd_seq_timer_set_tick_resolution(struct snd_seq_timer *tmr)
 		unsigned int s;
 		s = tmr->tempo % tmr->ppq;
 		s = (s * tmr->tempo_base) / tmr->ppq;
-		tmr->tick.resolution = (tmr->tempo / tmr->ppq) * tmr->tempo_base;
+		tmr->tick.resolution = (unsigned long)(tmr->tempo / tmr->ppq) * tmr->tempo_base;
 		tmr->tick.resolution += s;
 	}
 	if (tmr->tick.resolution <= 0)
