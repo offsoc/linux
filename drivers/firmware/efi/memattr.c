@@ -48,7 +48,7 @@ int __init efi_memattr_init(void)
 	 * memory map, there is clearly something wrong, and the table should
 	 * just be ignored altogether.
 	 */
-	size = tbl->num_entries * tbl->desc_size;
+	size = (unsigned long)tbl->num_entries * tbl->desc_size;
 	if (size > 3 * efi.memmap.nr_map * efi.memmap.desc_size) {
 		pr_warn(FW_BUG "Corrupted EFI Memory Attributes Table detected! (version == %u, desc_size == %u, num_entries == %u)\n",
 			tbl->version, tbl->desc_size, tbl->num_entries);
