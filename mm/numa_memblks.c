@@ -59,7 +59,7 @@ static int __init numa_alloc_distance(void)
 	for_each_node_mask(i, nodes_parsed)
 		cnt = i;
 	cnt++;
-	size = cnt * cnt * sizeof(numa_distance[0]);
+	size = (size_t)cnt * cnt * sizeof(numa_distance[0]);
 
 	numa_distance = memblock_alloc(size, PAGE_SIZE);
 	if (!numa_distance) {
