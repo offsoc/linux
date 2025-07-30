@@ -159,7 +159,7 @@ static void vgacon_scrolldelta(struct vc_data *c, int lines)
 		wrap = vga_vram_size;
 	}
 
-	from_off = (vorigin - from + wrap) % wrap + lines * c->vc_size_row;
+	from_off = (vorigin - from + wrap) % wrap + (unsigned long)lines * c->vc_size_row;
 	avail = (origin - from + wrap) % wrap;
 
 	/* Only a little piece would be left? Show all incl. the piece! */
