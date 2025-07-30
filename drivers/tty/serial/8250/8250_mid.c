@@ -223,7 +223,7 @@ static void mid8250_set_termios(struct uart_port *p, struct ktermios *termios,
 			ps = mid->board->freq / baud;	/* baud rate too high */
 		else
 			ps = 1;				/* PLL case */
-		fuart = baud * ps;
+		fuart = (unsigned long)baud * ps;
 	} else {
 		/* Get Fuart closer to Fref */
 		fuart *= rounddown_pow_of_two(mid->board->freq / fuart);
