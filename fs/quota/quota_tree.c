@@ -323,7 +323,7 @@ static uint find_free_dqentry(struct qtree_mem_dqinfo *info,
 	}
 	dquot->dq_off = ((loff_t)blk << info->dqi_blocksize_bits) +
 			sizeof(struct qt_disk_dqdbheader) +
-			i * info->dqi_entry_size;
+			(loff_t)i * info->dqi_entry_size;
 	kfree(buf);
 	return blk;
 out_buf:
