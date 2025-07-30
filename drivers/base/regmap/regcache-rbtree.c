@@ -298,7 +298,7 @@ static int regcache_rbtree_insert_to_block(struct regmap *map,
 	/* insert the register value in the correct place in the rbnode block */
 	if (pos == 0) {
 		memmove(blk + offset * map->cache_word_size,
-			blk, rbnode->blklen * map->cache_word_size);
+			blk, (size_t)rbnode->blklen * map->cache_word_size);
 		bitmap_shift_left(present, present, offset, blklen);
 	}
 
