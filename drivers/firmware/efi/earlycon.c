@@ -103,7 +103,7 @@ static void efi_earlycon_scroll_up(void)
 	height = screen_info.lfb_height;
 
 	for (i = 0; i < height - font->height; i++) {
-		dst = efi_earlycon_map(i*len, len);
+		dst = efi_earlycon_map((unsigned long)i * len, len);
 		if (!dst)
 			return;
 
