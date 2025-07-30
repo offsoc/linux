@@ -712,8 +712,8 @@ void __iomem *vp_modern_map_vq_notify(struct virtio_pci_modern_device *mdev,
 		}
 		if (pa)
 			*pa = mdev->notify_pa +
-			      off * mdev->notify_offset_multiplier;
-		return mdev->notify_base + off * mdev->notify_offset_multiplier;
+			      (u64)off * mdev->notify_offset_multiplier;
+		return mdev->notify_base + (u64)off * mdev->notify_offset_multiplier;
 	} else {
 		return vp_modern_map_capability(mdev,
 				       mdev->notify_map_cap, 2, 2,
