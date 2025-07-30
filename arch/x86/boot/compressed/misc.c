@@ -96,7 +96,7 @@ static void scroll(void)
 {
 	int i;
 
-	memmove(vidmem, vidmem + cols * 2, (lines - 1) * cols * 2);
+	memmove(vidmem, vidmem + cols * 2, (size_t)(lines - 1) * cols * 2);
 	for (i = (lines - 1) * cols * 2; i < lines * cols * 2; i += 2)
 		vidmem[i] = ' ';
 }
