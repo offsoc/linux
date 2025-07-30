@@ -107,7 +107,7 @@ static void efi_earlycon_scroll_up(void)
 		if (!dst)
 			return;
 
-		src = efi_earlycon_map((i + font->height) * len, len);
+		src = efi_earlycon_map((unsigned long)(i + font->height) * len, len);
 		if (!src) {
 			efi_earlycon_unmap(dst, len);
 			return;
