@@ -527,7 +527,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
 		/* ensure sane minimum values */
 		if (args->pitch < min_pitch)
 			args->pitch = min_pitch;
-		if (args->size < args->pitch * args->height)
+		if (args->size < (u64)args->pitch * args->height)
 			args->size = PAGE_ALIGN((u64)args->pitch * args->height);
 	}
 
