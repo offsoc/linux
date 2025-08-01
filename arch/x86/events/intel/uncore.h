@@ -311,7 +311,7 @@ static inline unsigned uncore_msr_box_offset(struct intel_uncore_box *box)
 	struct intel_uncore_pmu *pmu = box->pmu;
 	return pmu->type->msr_offsets ?
 		pmu->type->msr_offsets[pmu->pmu_idx] :
-		pmu->type->msr_offset * pmu->pmu_idx;
+		((unsigned long)pmu->type->msr_offset) * pmu->pmu_idx;
 }
 
 static inline unsigned uncore_msr_box_ctl(struct intel_uncore_box *box)
