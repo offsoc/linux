@@ -587,7 +587,7 @@ int fat_free_clusters(struct inode *inode, int cluster)
 
 				sb_issue_discard(sb,
 					fat_clus_to_blknr(sbi, first_cl),
-					nr_clus * sbi->sec_per_clus,
+					((sector_t)nr_clus) * sbi->sec_per_clus,
 					GFP_NOFS, 0);
 
 				first_cl = cluster;
