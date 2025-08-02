@@ -165,7 +165,7 @@ efi_earlycon_write(struct console *con, const char *str, unsigned int num)
 		for (h = 0; h < font->height; h++) {
 			unsigned int n, x;
 
-			dst = efi_earlycon_map((efi_y + h) * len, len);
+			dst = efi_earlycon_map((unsigned long)(efi_y + h) * len, len);
 			if (!dst)
 				return;
 
