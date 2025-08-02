@@ -298,7 +298,7 @@ static int __parse_discovery_table(resource_size_t addr, int die,
 	}
 	iounmap(io_addr);
 
-	size = (1 + global.max_units) * global.stride * 8;
+	size = (unsigned long)(1 + global.max_units) * global.stride * 8;
 	io_addr = ioremap(addr, size);
 	if (!io_addr)
 		return -ENOMEM;
