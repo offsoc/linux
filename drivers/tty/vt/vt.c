@@ -1419,7 +1419,7 @@ static void gotoxy(struct vc_data *vc, int new_x, int new_y)
 		vc->state.y = max_y - 1;
 	else
 		vc->state.y = new_y;
-	vc->vc_pos = vc->vc_origin + vc->state.y * vc->vc_size_row +
+	vc->vc_pos = vc->vc_origin + (unsigned long)vc->state.y * vc->vc_size_row +
 		(vc->state.x << 1);
 	vc->vc_need_wrap = 0;
 }
