@@ -1232,7 +1232,7 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
 		old_origin += first_copied_row * old_row_size;
 	} else
 		first_copied_row = 0;
-	end = old_origin + old_row_size * min(old_rows, new_rows);
+	end = old_origin + (unsigned long)old_row_size * min(old_rows, new_rows);
 
 	vc_uniscr_copy_area(new_uniscr, new_cols, new_rows,
 			    vc->vc_uni_lines, rlth/2, first_copied_row,
