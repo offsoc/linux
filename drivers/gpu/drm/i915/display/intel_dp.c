@@ -721,7 +721,7 @@ static void intel_dp_link_config_init(struct intel_dp *intel_dp)
 
 	num_common_lane_configs = ilog2(intel_dp_max_common_lane_count(intel_dp)) + 1;
 
-	if (drm_WARN_ON(display->drm, intel_dp->num_common_rates * num_common_lane_configs >
+	if (drm_WARN_ON(display->drm, (unsigned long)intel_dp->num_common_rates * num_common_lane_configs >
 				    ARRAY_SIZE(intel_dp->link.configs)))
 		return;
 
