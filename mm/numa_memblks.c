@@ -37,7 +37,7 @@ static void __init numa_nodemask_from_meminfo(nodemask_t *nodemask,
  */
 void __init numa_reset_distance(void)
 {
-	size_t size = numa_distance_cnt * numa_distance_cnt * sizeof(numa_distance[0]);
+	size_t size = (size_t)numa_distance_cnt * numa_distance_cnt * sizeof(numa_distance[0]);
 
 	/* numa_distance could be 1LU marking allocation failure, test cnt */
 	if (numa_distance_cnt)
