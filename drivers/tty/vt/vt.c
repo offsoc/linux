@@ -1229,7 +1229,7 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
 			 */
 			first_copied_row = (vc->state.y - new_rows/2);
 		}
-		old_origin += first_copied_row * old_row_size;
+		old_origin += (unsigned long)first_copied_row * old_row_size;
 	} else
 		first_copied_row = 0;
 	end = old_origin + (unsigned long)old_row_size * min(old_rows, new_rows);
