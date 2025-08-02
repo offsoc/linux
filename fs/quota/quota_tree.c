@@ -649,7 +649,7 @@ static loff_t find_block_dqentry(struct qtree_mem_dqinfo *info,
 		goto out_buf;
 	} else {
 		ret = ((loff_t)blk << info->dqi_blocksize_bits) + sizeof(struct
-		  qt_disk_dqdbheader) + i * info->dqi_entry_size;
+		  qt_disk_dqdbheader) + (loff_t)i * info->dqi_entry_size;
 	}
 out_buf:
 	kfree(buf);
