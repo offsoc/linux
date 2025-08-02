@@ -756,7 +756,7 @@ static int fat_trim_clusters(struct super_block *sb, u32 clus, u32 nr_clus)
 {
 	struct msdos_sb_info *sbi = MSDOS_SB(sb);
 	return sb_issue_discard(sb, fat_clus_to_blknr(sbi, clus),
-				nr_clus * sbi->sec_per_clus, GFP_NOFS, 0);
+				((sector_t)nr_clus) * sbi->sec_per_clus, GFP_NOFS, 0);
 }
 
 int fat_trim_fs(struct inode *inode, struct fstrim_range *range)
