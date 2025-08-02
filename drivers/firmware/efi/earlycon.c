@@ -77,7 +77,7 @@ static void efi_earlycon_clear_scanline(unsigned int y)
 	u16 len;
 
 	len = screen_info.lfb_linelength;
-	dst = efi_earlycon_map(y*len, len);
+	dst = efi_earlycon_map((unsigned long)y * len, len);
 	if (!dst)
 		return;
 
