@@ -879,7 +879,7 @@ static void set_origin(struct vc_data *vc)
 		vc->vc_origin = (unsigned long)vc->vc_screenbuf;
 	vc->vc_visible_origin = vc->vc_origin;
 	vc->vc_scr_end = vc->vc_origin + vc->vc_screenbuf_size;
-	vc->vc_pos = vc->vc_origin + vc->vc_size_row * vc->state.y +
+	vc->vc_pos = vc->vc_origin + (unsigned long)vc->vc_size_row * vc->state.y +
 		2 * vc->state.x;
 }
 
