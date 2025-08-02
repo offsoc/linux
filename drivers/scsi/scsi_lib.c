@@ -763,7 +763,7 @@ static bool scsi_cmd_runtime_exceeced(struct scsi_cmnd *cmd)
 	if (cmd->allowed == SCSI_CMD_RETRIES_NO_LIMIT)
 		return false;
 
-	wait_for = (cmd->allowed + 1) * req->timeout;
+	wait_for = (unsigned long)(cmd->allowed + 1) * req->timeout;
 	if (time_before(cmd->jiffies_at_alloc + wait_for, jiffies)) {
 		scmd_printk(KERN_ERR, cmd, "timing out command, waited %lus\n",
 			    wait_for/HZ);
