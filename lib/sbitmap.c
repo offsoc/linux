@@ -219,7 +219,7 @@ static unsigned int __map_depth_with_shallow(const struct sbitmap *sb,
 	if (shallow_depth >= sb->depth)
 		return word_depth;
 
-	shallow_word_depth = word_depth * shallow_depth;
+	shallow_word_depth = (u64)word_depth * shallow_depth;
 	reminder = do_div(shallow_word_depth, sb->depth);
 
 	if (reminder >= (index + 1) * word_depth)
