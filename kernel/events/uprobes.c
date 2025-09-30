@@ -121,7 +121,7 @@ struct xol_area {
 
 static void uprobe_warn(struct task_struct *t, const char *msg)
 {
-	pr_warn("uprobe: %s:%d failed to %s\n", current->comm, current->pid, msg);
+	pr_warn("uprobe: %s:%d failed to %s\n", t->comm, t->pid, msg);
 }
 
 /*
@@ -2160,7 +2160,7 @@ static void dup_xol_work(struct callback_head *work)
 /*
  * Called in context of a new clone/fork from copy_process.
  */
-void uprobe_copy_process(struct task_struct *t, unsigned long flags)
+void uprobe_copy_process(struct task_struct *t, u64 flags)
 {
 	struct uprobe_task *utask = current->utask;
 	struct mm_struct *mm = current->mm;
