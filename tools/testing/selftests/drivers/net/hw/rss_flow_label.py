@@ -64,7 +64,7 @@ def _traffic(cfg, one_sock, one_cpu):
     remote_port = rand_port(socket.SOCK_DGRAM)
 
     sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
-    sock.bind(("", local_port))
+    sock.bind((cfg.addr_v['6'], local_port))
     sock.connect((cfg.remote_addr_v["6"], 0))
     if one_sock:
         send = f"exec 5<>/dev/udp/{cfg.addr_v['6']}/{local_port}; " \
