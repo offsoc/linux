@@ -234,7 +234,7 @@ def rand_port(stype=socket.SOCK_STREAM):
     Get a random unprivileged port.
     """
     with socket.socket(socket.AF_INET6, stype) as s:
-        s.bind(("", 0))
+        s.bind(("::1", 0))
         return s.getsockname()[1]
 
 
