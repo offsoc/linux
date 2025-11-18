@@ -13,7 +13,7 @@ from lib.py import rand_port
 def traffic(cfg, local_port, remote_port, ipver):
     af_inet = socket.AF_INET if ipver == "4" else socket.AF_INET6
     sock = socket.socket(af_inet, socket.SOCK_DGRAM)
-    sock.bind(("", local_port))
+    sock.bind((cfg.addr_v[ipver], local_port))
     sock.connect((cfg.remote_addr_v[ipver], remote_port))
     tgt = f"{ipver}:[{cfg.addr_v[ipver]}]:{local_port},sourceport={remote_port}"
     cmd("echo a | socat - UDP" + tgt, host=cfg.remote)
